@@ -9,8 +9,12 @@ var (
 	UrbanSearchAPIPath          = "/geo/v2/city/lookup"
 	RealTimeWeatherQueryAPIPath = "/v7/weather/now"
 	AirQualityQueryAPIPath      = "/airquality/v1/current/"
+	QueryNextWeatherAPIPath     = "/v7/weather/3d"
+	QueryHourWeatherAPIPath     = "/v7/grid-weather/24h"
 
 	UrbanSearchAPI          = SCHEMA + "://" + ApiHost + UrbanSearchAPIPath + "?location="
 	RealTimeWeatherQueryAPI = SCHEMA + "://" + ApiHost + RealTimeWeatherQueryAPIPath + "?location="
 	AirQualityQueryAPI      = SCHEMA + "://" + ApiHost + AirQualityQueryAPIPath
+	QueryNextWeatherAPI     = SCHEMA + "://" + ApiHost + QueryNextWeatherAPIPath + "?location="
+	QueryHourWeatherAPI     = SCHEMA + "://" + ApiHost + QueryHourWeatherAPIPath + "?location="
 )

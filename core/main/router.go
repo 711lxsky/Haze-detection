@@ -10,5 +10,7 @@ func InitRouter(r *gin.Engine) {
 	{
 		// 根据经纬度查询天气信息
 		api.POST("/weather", handler.QueryWeatherByLonLat)
+		// 模糊查询地点
+		api.POST("/position", handler.SearchPositionWithName)
 	}
 }
