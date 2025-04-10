@@ -102,7 +102,7 @@ cd  /web
 docker build . -t haze-detection-front
 docker run -d -p 3002:80 haze-detection-front
 ```
-即可在本地3002端口打开
+> 即可在本地3002端口打开
 ---
 
 ### 🏠 本地部署
