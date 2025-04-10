@@ -1,5 +1,5 @@
 # 第一阶段：构建Go二进制文件
-FROM golang:1.21-alpine AS builder
+FROM golang:1.24-alpine AS builder
 
 # 设置工作目录
 WORKDIR /app
@@ -12,7 +12,7 @@ RUN go mod download
 COPY . .
 
 # 构建应用程序（注意main.go的路径）
-RUN CGO_ENABLED=0 GOOS=linux go build -o haze-detection ./main/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o haze-detection ./main
 
 # 第二阶段：生成最终轻量级镜像
 FROM alpine:3.19

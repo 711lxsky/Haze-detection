@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  db:
+  haze-detection-db:
     image: mysql:8.0
-    container_name: mysql_haze_detection
+    container_name: mysql-haze-detection
     environment:
       MYSQL_ROOT_PASSWORD: zyy_lhx_yjr
       MYSQL_DATABASE: haze_detection
@@ -13,9 +13,22 @@ services:
       - "3308:3306"
     volumes:
       - ./mysql_data:/var/lib/mysql
-#      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     command: --default-authentication-plugin=mysql_native_password --bind-address=0.0.0.0
     restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
 
-#volumes:
-#  db_data:
+  haze-detection-core:
+    image: haze-detect-core:1.0.0
+    container_name: haze-detection-core
+    depends_on:
+      - haze-detection-db
+#        condition: service_healthy
+#    ports:
+#       - "8248:8248"
+    network_mode: host
+    restart: always
