@@ -95,7 +95,14 @@ docker-compose up -d
 ```
 
 - [ ] 前端部署 🖥️
-
+相关指令
+```shell
+cd  /web
+# 替换 ./web/src/views/HomeView.vue 中的两个后端地址
+docker build . -t haze-detection-front
+docker run -d -p 3002:80 haze-detection-front
+```
+即可在本地3002端口打开
 ---
 
 ### 🏠 本地部署
@@ -116,8 +123,12 @@ git clone https://github.com/711lxsky/Haze-detection.git
    ```
 
 #### 🖥️ 针对 `web` 模块
-- [ ] 待更新 🔄
 
+```shell
+cd ./web
+npm install
+npm run dev # 调试模式
+```
 ---
 
 希望你喜欢这个项目！如果有任何问题或建议，请随时提交 Issue 或 Pull Request 😊。
