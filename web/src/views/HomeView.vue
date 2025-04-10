@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <div class="h-full w-full bg-purple-100 p-4 overflow-scroll">
+  <div class="w-full h-full bg-purple-100">
+    <loading v-show="!init" />
+    <div class="h-full w-full p-4 overflow-scroll" v-show="init">
       <div class="head flex justify-between items-center">
         <div class="title text-3xl font-[400] text-gray-700">{{ data.pos?.adm1 ?? '' }}</div>
         <el-icon size="25px" color="black" @click="handleSearch">
@@ -90,7 +91,7 @@
       </div>
     </div>
     <el-dialog v-model="searchDialog" title="查找城市天气" width="300">
-      <el-autocomplete v-model="query" placeholder="请输入城市" :trigger-on-focus="false" :fetch-suggestions="querySearch"
+      <el-autocomplete v-model="query" placeholder="请输入城市" clearable :trigger-on-focus="false" :fetch-suggestions="querySearch"
         @select="handleSelect">
       </el-autocomplete>
     </el-dialog>
@@ -101,9 +102,10 @@
 import leafSvg from '../assets/leaf.svg'
 import searchSvg from '../assets/search.svg'
 import pinyin from "js-pinyin";
-import { onMounted, ref, reactive, watch, nextTick, watchEffect } from 'vue'
+import { onMounted, ref, reactive, watch, nextTick } from 'vue'
 import { getGeolocationPromise } from '../ts/api.ts'
 import { renderChart, renderChart2 } from '../ts/renderCharts.ts'
+import Loading from '../components/LoadingCom.vue';
 const query = ref('')
 const chart = ref(null)
 const chart2 = ref(null)
@@ -111,8 +113,8 @@ const tem = ref<HTMLDivElement | null>(null)
 const tem2 = ref<HTMLDivElement | null>(null)
 const searchDialog = ref(false);
 const data = reactive<dataProps>({})
-const url = "http://192.168.3.175:8248/api/weather"
-const url2 = "http://192.168.3.175:8248/api/position"
+const url = "https://weather.hxzzz.asia/backend/api/weather"
+const url2 = "https://weather.hxzzz.asia/backend/api/position"
 const init = ref(false);
 const isMount = ref(false);
 const x = ref<string[]>([])
@@ -144,6 +146,7 @@ const querySearch = (queryString: string, cb: any) => {
     })
     .catch(err => {
       console.error(err);
+      cb([])
     })
 }
 
@@ -197,6 +200,10 @@ const upDateweather = async () => {
     const newData = await response.json()
     Object.assign(data, newData.data);
     init.value = true;
+    x.value = [];
+    y.value = [];
+    x2.value = [];
+    y2.value = [];
     newData.data.hourly_weather.forEach((element: { fxTime: string, temp: string, humidity: string, text: string }) => {
       let date = new Date(element.fxTime);
       x.value.push(`${element.text}\n${String((date.getUTCHours() + 8) % 24).padStart(2, '0')}:00`)
@@ -204,6 +211,8 @@ const upDateweather = async () => {
       x2.value.push(`${String((date.getUTCHours() + 8) % 24).padStart(2, '0')}:00`)
       y2.value.push(Number(element.humidity))
     });
+    renderChart(chart, x, y);
+    renderChart2(chart2, x2, y2);
   } catch (err) {
     console.error(err);
   }
