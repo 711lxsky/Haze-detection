@@ -2,7 +2,7 @@
 
 本着对 **B测** 认真负责的态度，三人共同从 0 到 1 开发了一款小而美的轻量级 **雾霾检测工具** 🎉！
 
-现已部署于公网环境 [weather.hxzzz.asia](weather.hxzzz.asia)
+现已部署于公网环境 [weather.hxzzz.asia](https://weather.hxzzz.asia)
 
 项目采用前后端分离架构：
 - 前端使用 **Vue** + **ElementUI** 💻
